@@ -7,14 +7,24 @@ export const todos = [
   { id: 4, title: "Read 10 pages", done: false, due: new Date(2026, 11, 15) },
 ];
 
-function formatDate(date){
-    return  format(date, "dd MMMM yyyy")
+// огноог зөв форматаар харуулж буй функц
+function formatDate(date) {
+  const formattedDate = format(date, "dd MMMM yyyy");
+  console.log("formatDate", formattedDate);
+  return formattedDate;
 }
-function daysLeft(date){
-   return differenceInCalendarDays(date, new Date());
-} 
-export function dueText(date) {
+
+// хоёр огноог харьцуулаад ялгааг тоогоор буцааж буй функц
+function daysLeft(date) {
+  const difference = differenceInCalendarDays(date, new Date());
+  console.log("daysLeft", difference);
+  return difference;
+}
+
+// дээрх функцийн буцаасан тоог шалгаад тохирох утгыг буцааж буй функц
+function dueText(date) {
   const days = daysLeft(date);
+  console.log("DAYS", days);
 
   if (days === 0) {
     return "today!";
@@ -31,7 +41,8 @@ function formatTitle() {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-             {todo.done ? "☑" : "☐"}{todo.title}- {formatDate(todo.due)} {dueText(todo.due)}{" "}
+            {todo.done ? "☑" : "☐"}
+            {todo.title}- {formatDate(todo.due)} {dueText(todo.due)}
           </li>
         ))}
       </ul>
@@ -45,7 +56,7 @@ export default function Home() {
   return (
     <div>
       <h1> My to-dos</h1>
-       <div>{formatTitle()}</div>
+      <div>{formatTitle()}</div>
       <p>Today: {formatDate(today)}</p>
     </div>
   );
