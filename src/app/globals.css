@@ -85,3 +85,8 @@
     font-size: 12px;
     color: #3B73ED;
 }
+.newtodo{
+    width: 345px;
+    height: 62px;
+    border-radius: 6px;
+}
