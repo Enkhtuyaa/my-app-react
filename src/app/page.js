@@ -42,12 +42,28 @@ export default function Home() {
   const handleAllButtonClick = () => {
     setState("All");
   };
+  function handleToggle(id) {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, done: !todo.done } : todo,
+      ),
+    );
+  }
+  function handleAdd() {
+    const newTodo = { id: Date.now(), title: inputValue, done: false };
+    setTodos([...todos, newTodo]);
+    setText("");
+  }
+  function handleDelete(id) {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  }
+  const doneCount = todos.filter((todo) => todo.done).length;
   // console.log(state, "this is the state");
   // console.log(handleActiveButtonClick)
   return (
     <div className="container">
       <main className="todolist-card">
-        <h1 className="title">To-Do-list</h1>
+        <h1 className="title">To-Do list</h1>
         <header className="container">
           <input
             className="search-input"
@@ -65,7 +81,7 @@ export default function Home() {
             All
           </button>
           <button className="active-button" onClick={handleActiveButtonClick}>
-            Active
+            Active 
           </button>
           <button
             className="completed-button"
@@ -74,22 +90,43 @@ export default function Home() {
             Completed
           </button>
         </section>
-        {/* {state === "All" && <div>State now is All</div>}
-        {state === "Active" && <div>State now is Active</div>}
-        {state === "Completed" && <div>State now is completed</div>} */}
-        {/* {todos.length === 0 ? (
-          <h2 className="todolist-text">No tasks yet. Add one above!</h2>
+        {todos.length === 0 ? (
+          <p className="todolist-text">No tasks yet. Add one above!</p>
         ) : (
           <div className="newtodo">
+            {" "}
             {todos.map((todo) => (
-             <div></div> <li key={todo.id}>{todo.title}</li>
+              <div className="newtask-text" key={todo.id}> 
+              <div className="new-box"> <input
+                  className="check-box"
+                  type="checkbox"
+                  checked={todo.done}
+                  onChange={() => handleToggle(todo.id)}
+                />
+                <p
+                  style={{
+                    textDecoration: todo.done ? "line-through" : "none",
+                  }}
+                >
+                  {todo.title}
+                </p>
+                </div>
+                
+              
+                  {" "}
+                  <button
+                    onClick={() => handleDelete(todo.id)}
+                    className="delete-text"
+                  >
+                    Delete
+                  </button>{" "}
+               </div>
             ))}
           </div>
-        )} */}
-
+        )}
         <footer className="footer-text">
-          <h3 className="powered-by-text">Powered by</h3>
-          <h4 className="pinecone-text">Pinecone academy</h4>
+          <p className="powered-by-text">Powered by</p>
+          <p className="pinecone-text">Pinecone academy </p>
         </footer>
       </main>
     </div>
