@@ -43,7 +43,7 @@
   height: 32px;
   border-radius: 6px;
   background-color: #3c82f6;
-  color: #f9f9f9;
+  color: #363636;
   border: none;
   /* text-align: center; */
 }
@@ -133,4 +133,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.task-completed{
+  width: 345px;
+  height: 37px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 16px;
+  /* margin-right: 16px; */
+}
+.donecount-text{
+  font-weight: 400;
+  font-size: 14px;
+  color: #6B7280;
+}
+.clear-text{
+font-weight: 400;
+  font-size: 14px;
+  color: #EF4444;
+  border: none;
+  background-color: transparent;
 }
