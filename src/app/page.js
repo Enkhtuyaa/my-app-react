@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { TodoButton } from "./components/Todo-Button";
+import { id } from "date-fns/locale";
 
 function checkLocal() {
   const todos =
@@ -49,26 +50,42 @@ export default function Home() {
     if (state === "Completed") return todo.done;
     return true;
   });
-  function handleToggle(id) {
+  // function handleToggle(id) {
+  //   setTodos(
+  //     todos.map((todo) =>
+  //       todo.id === id ? { ...todo, done: !todo.done } : todo,
+  //     ),
+  //   );
+  // }
+  const handleToggle = (id) => {
     setTodos(
       todos.map((todo) =>
         todo.id === id ? { ...todo, done: !todo.done } : todo,
       ),
     );
-  }
-
-  function handleDelete(id) {
+  };
+  const handleDelete = (id) => {
     const updatedTodos = todos.filter((todo) => todo.id !== id);
     setTodos(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
-  }
-  function handleClearCompleted() {
+  };
+
+  const handleClearCompleted = () => {
     setTodos(todos.filter((todo) => !todo.done));
   }
+  // function handleClearCompleted() {
+  //   setTodos(todos.filter((todo) => !todo.done));
+  // }
   // console.log(handleClearCompleted, "clearclicked")
 
-  function emptyMessage() {
-    if (todos.length === 0) return "No tasks yet. Add one above!";
+  // function emptyMessage() {
+  //   if (todos.length === 0) return "No tasks yet. Add one above!";
+  //   if (state === "Active") return "Nothing left to do.";
+  //   if (state === "Completed") return "Nothing completed yet.";
+  //   return "";
+  // }
+  const emptyMessage = () => {
+     if (todos.length === 0) return "No tasks yet. Add one above!";
     if (state === "Active") return "Nothing left to do.";
     if (state === "Completed") return "Nothing completed yet.";
     return "";
@@ -120,7 +137,7 @@ export default function Home() {
         </section>
 
         {filteredTodos.length === 0 ? (
-          <p className="todolist-text">{emptyMessage()} </p>
+          <p className="todolist-text">{emptyMessage} </p>
         ) : (
           <div className="newtodo">
             {filteredTodos.map((todo) => (
@@ -131,7 +148,7 @@ export default function Home() {
                     className="check-box"
                     type="checkbox"
                     checked={todo.done || false}
-                    onChange={() => handleToggle(todo.id)}
+                    onChange={() => handleToggle(id)}
                   />
                   <p
                     style={{
@@ -150,7 +167,7 @@ export default function Home() {
                 <TodoButton
                   text="Delete"
                   className="delete-text"
-                  onClick={() => handleDelete(todo.id)}
+                  onClick={() => handleDelete(id)}
                 />
               </div>
             ))}
