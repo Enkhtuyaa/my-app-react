@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { TodoButton } from "./components/Todo-Button";
-import { id } from "date-fns/locale";
 
 function checkLocal() {
   const todos =
@@ -16,13 +15,14 @@ function checkLocal() {
 }
 export default function Home() {
   const [state, setState] = useState("All");
-  const [todos, setTodos] = useState(checkLocal());
+  const [todos, setTodos] = useState(checkLocal);
   const [inputValue, setInputValue] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleInputChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
+    if (errorMessage) setErrorMessage("");
   };
   const handleAddButtonClick = () => {
     // inputValue "" bol aldaanii msg haruulna
@@ -42,6 +42,11 @@ export default function Home() {
     setInputValue("");
     setErrorMessage("");
   };
+  const handleInputKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleAddButtonClick();
+    }
+  };
   const doneCount = todos.filter((todo) => todo.done).length;
   // console.log(todos, "hello");
   // console.log("this is  the todo", todos);
@@ -50,19 +55,13 @@ export default function Home() {
     if (state === "Completed") return todo.done;
     return true;
   });
-  // function handleToggle(id) {
-  //   setTodos(
-  //     todos.map((todo) =>
-  //       todo.id === id ? { ...todo, done: !todo.done } : todo,
-  //     ),
-  //   );
-  // }
+
   const handleToggle = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, done: !todo.done } : todo,
-      ),
+    const updatedTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, done: !todo.done } : todo,
     );
+    setTodos(updatedTodos);
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
   };
   const handleDelete = (id) => {
     const updatedTodos = todos.filter((todo) => todo.id !== id);
@@ -71,25 +70,17 @@ export default function Home() {
   };
 
   const handleClearCompleted = () => {
-    setTodos(todos.filter((todo) => !todo.done));
-  }
-  // function handleClearCompleted() {
-  //   setTodos(todos.filter((todo) => !todo.done));
-  // }
-  // console.log(handleClearCompleted, "clearclicked")
+    const updatedTodos = todos.filter((todo) => !todo.done);
+    setTodos(updatedTodos);
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+  };
 
-  // function emptyMessage() {
-  //   if (todos.length === 0) return "No tasks yet. Add one above!";
-  //   if (state === "Active") return "Nothing left to do.";
-  //   if (state === "Completed") return "Nothing completed yet.";
-  //   return "";
-  // }
   const emptyMessage = () => {
-     if (todos.length === 0) return "No tasks yet. Add one above!";
+    if (todos.length === 0) return "No tasks yet. Add one above!";
     if (state === "Active") return "Nothing left to do.";
     if (state === "Completed") return "Nothing completed yet.";
     return "";
-  }
+  };
 
   // console.log(state, "this is the state");
   // console.log(handleActiveButtonClick)
@@ -102,6 +93,7 @@ export default function Home() {
             className="search-input"
             placeholder="Add a new task..."
             onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
             value={inputValue}
           />
           <TodoButton
@@ -137,7 +129,7 @@ export default function Home() {
         </section>
 
         {filteredTodos.length === 0 ? (
-          <p className="todolist-text">{emptyMessage} </p>
+          <p className="todolist-text">{emptyMessage()} </p>
         ) : (
           <div className="newtodo">
             {filteredTodos.map((todo) => (
@@ -148,7 +140,7 @@ export default function Home() {
                     className="check-box"
                     type="checkbox"
                     checked={todo.done || false}
-                    onChange={() => handleToggle(id)}
+                    onChange={() => handleToggle(todo.id)}
                   />
                   <p
                     style={{
@@ -167,7 +159,7 @@ export default function Home() {
                 <TodoButton
                   text="Delete"
                   className="delete-text"
-                  onClick={() => handleDelete(id)}
+                  onClick={() => handleDelete(todo.id)}
                 />
               </div>
             ))}
