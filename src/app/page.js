@@ -3,18 +3,19 @@
 import { useState } from "react";
 import { TodoButton } from "./components/Todo-Button";
 
-function checkLocal(){
-  const todos = typeof window !== "undefined" ? localStorage.getItem("todos") : null;
-   
-  if (todos){
-    return JSON.parse(todos)
-  }else {
-    return []
+function checkLocal() {
+  const todos =
+    typeof window !== "undefined" ? localStorage.getItem("todos") : null;
+
+  if (todos) {
+    return JSON.parse(todos);
+  } else {
+    return [];
   }
 }
 export default function Home() {
   const [state, setState] = useState("All");
-  const [todos, setTodos] = useState(checkLocal ());
+  const [todos, setTodos] = useState(checkLocal());
   const [inputValue, setInputValue] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -34,9 +35,9 @@ export default function Home() {
       done: false,
     };
 
-const updatedTodos = [...todos, newTodo]
+    const updatedTodos = [...todos, newTodo];
     setTodos(updatedTodos);
-    localStorage.setItem("todos", JSON.stringify(updatedTodos))
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
     setInputValue("");
     setErrorMessage("");
   };
@@ -57,9 +58,9 @@ const updatedTodos = [...todos, newTodo]
   }
 
   function handleDelete(id) {
-    const updatedTodos= (todos.filter((todo) => todo.id !== id));
-    setTodos(updatedTodos)
-    localStorage.setItem("todos", JSON.stringify(updatedTodos))
+    const updatedTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(updatedTodos);
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
   }
   function handleClearCompleted() {
     setTodos(todos.filter((todo) => !todo.done));
@@ -77,7 +78,6 @@ const updatedTodos = [...todos, newTodo]
   // console.log(handleActiveButtonClick)
   return (
     <div className="container">
-      <TodoButton />
       <main className="todolist-card">
         <h1 className="title">To-Do list</h1>
         <header className="container">
@@ -87,51 +87,42 @@ const updatedTodos = [...todos, newTodo]
             onChange={handleInputChange}
             value={inputValue}
           />
-          <button className="add-button" onClick={handleAddButtonClick}>
-            Add
-          </button>
+          <TodoButton
+            text="Add"
+            className="add-button"
+            onClick={handleAddButtonClick}
+          />
         </header>
         {errorMessage !== "" && (
           <div style={{ color: "red" }}>{errorMessage}</div>
         )}
         <section className="section">
-          <button
-            className="all-button"
+          <TodoButton
             onClick={() => setState("All")}
-            style={{
-              backgroundColor: state === "All" ? "#3c82f6" : "#F3F4F6",
-              color: state === "All" ? "white" : "black",
-            }}
-          >
-            All
-          </button>
-          <button
-            className="active-button"
+            text="All"
+            className="all-button"
+            stateValue={state}
+          />
+
+          <TodoButton
             onClick={() => setState("Active")}
-            style={{
-              backgroundColor: state === "Active" ? "#3c82f6" : "#F3F4F6",
-              color: state === "Active" ? "white" : "black",
-            }}
-          >
-            Active
-          </button>
-          <button
-            className="completed-button"
+            text="Active"
+            className="active-button"
+            stateValue={state}
+          />
+
+          <TodoButton
             onClick={() => setState("Completed")}
-            style={{
-              backgroundColor: state === "Completed" ? "#3c82f6" : "#F3F4F6",
-              color: state === "Completed" ? "white" : "black",
-            }}
-          >
-            Completed
-          </button>
+            text="Completed"
+            className="completed-button"
+            stateValue={state}
+          />
         </section>
 
         {filteredTodos.length === 0 ? (
           <p className="todolist-text">{emptyMessage()} </p>
         ) : (
           <div className="newtodo">
-            {" "}
             {filteredTodos.map((todo) => (
               <div className="newtask-text" key={todo.id}>
                 <div className="new-box">
@@ -150,12 +141,17 @@ const updatedTodos = [...todos, newTodo]
                     {todo.title}
                   </p>
                 </div>{" "}
-                <button
+                {/* <button
                   onClick={() => handleDelete(todo.id)}
                   className="delete-text"
                 >
                   Delete
-                </button>{" "}
+                </button>{" "} */}
+                <TodoButton
+                  text="Delete"
+                  className="delete-text"
+                  onClick={() => handleDelete(todo.id)}
+                />
               </div>
             ))}
           </div>
