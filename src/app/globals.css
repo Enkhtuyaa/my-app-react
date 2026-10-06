@@ -36,6 +36,7 @@
   background-color: #3c82f6 !important;
   color: #f9f9f9 !important;
   border: none;
+  cursor: pointer;
 }
 
 .all-button {
@@ -45,7 +46,7 @@
   background-color: #3c82f6;
   color: #363636;
   border: none;
-  /* text-align: center; */
+  cursor: pointer;
 }
 .active-button {
   width: 60px;
@@ -54,6 +55,7 @@
   background-color: #f3f4f6;
   color: #363636;
   border: none;
+  cursor: pointer;
 }
 .completed-button {
   border: none;
@@ -62,6 +64,7 @@
   border-radius: 6px;
   background-color: #f3f4f6;
   color: #363636;
+  cursor: pointer;
 }
 .section {
   display: flex;
@@ -97,7 +100,7 @@
   background-color: grey;
   display: flex;
   align-items: center;
-  justify-content:space-between ;
+  justify-content: space-between;
   margin-left: 16px;
 }
 .check-box {
@@ -129,12 +132,12 @@
   justify-content: space-between;
   gap: 20px;
 }
-.new-box{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.new-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.task-completed{
+.task-completed {
   width: 345px;
   height: 37px;
   display: flex;
@@ -143,15 +146,16 @@
   padding-left: 16px;
   /* margin-right: 16px; */
 }
-.donecount-text{
+.donecount-text {
   font-weight: 400;
   font-size: 14px;
-  color: #6B7280;
+  color: #6b7280;
 }
-.clear-text{
-font-weight: 400;
+.clear-text {
+  font-weight: 400;
   font-size: 14px;
-  color: #EF4444;
+  color: #ef4444;
   border: none;
   background-color: transparent;
 }
+

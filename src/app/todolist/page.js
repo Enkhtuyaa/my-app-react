@@ -78,9 +78,13 @@ export default function Home() {
             Add
           </button>
         </header>
-        {errorMessage !== "" && (
-          <div style={{ color: "red" }}>{errorMessage}</div>
-        )}
+        <div className="empty-message">
+          {errorMessage !== "" && (
+            <div style={{ color: "red" }}>
+              <p>{errorMessage}</p>
+            </div>
+          )}
+        </div>
         <section className="section">
           <button
             className="all-button"
