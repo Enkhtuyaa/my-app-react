@@ -6,7 +6,6 @@ import { TodoButton } from "./components/Todo-Button";
 function checkLocal() {
   const todos =
     typeof window !== "undefined" ? localStorage.getItem("todos") : null;
-
   if (todos) {
     return JSON.parse(todos);
   } else {
